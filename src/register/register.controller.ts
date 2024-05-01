@@ -7,8 +7,7 @@ import { ValidationPipe } from '../pipe/validation-pipe'
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
   @Post('')
-  register(@Body(new ValidationPipe()) createUserDot: UserRegisterDto) {
-    console.log('hello world', createUserDot);
-    return 'hello';
+  register(@Body() createUserDto: UserRegisterDto) {
+    return this.registerService.createUser(createUserDto);
   }
 }
