@@ -4,10 +4,10 @@ import {
 } from 'class-validator'
 
 // 自定义一个验证用户名
-const userReg = /^[a-zA-Z0-9_]+$/
 @ValidatorConstraint({ name: 'username', async: false })
 class CustomUsernameValidator implements ValidatorConstraintInterface {
   validate(text: string, args: ValidationArguments) {
+    const userReg = /^[a-zA-Z][a-zA-Z0-9_]*$/;
     return userReg.test(text)
   }
 }
