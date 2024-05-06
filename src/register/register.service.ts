@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, BadRequestException } from '@nestjs/common'
 import { User } from '../entities/user.entity'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -11,15 +11,13 @@ export class RegisterService {
     private userRepository: Repository<User>,
   ) {}
   async createUser({ username, password }: UserInterface) {
-    try {
-      const res = await this.userRepository.save({
-        username,
-        password
-      })
-      console.log('res', res)
-      return 'success';
-    } catch (err: any) {
-      console.log('err', err);
+    const findUser = await this.userRepository.findOneBy({ username });
+    if (findUser) {
+      throw new BadRequestException(`username ${username} is exist`);
     }
+    await this.userRepository.save({
+      username,
+      password,
+    });
   }
 }

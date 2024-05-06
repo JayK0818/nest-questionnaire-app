@@ -1,7 +1,6 @@
 import { Injectable, NestInterceptor, BadGatewayException, ExecutionContext, CallHandler } from '@nestjs/common'
 import type { Observable } from 'rxjs'
 import { map } from 'rxjs'
-import { SUCCESS_CODE, ERROR_CODE } from '../constants/index'
 import { catchError } from 'rxjs/operators'
 
 interface Response<T> {
@@ -16,16 +15,16 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
     return next.handle().pipe(
       map((data) => ({
         data,
-        code: SUCCESS_CODE,
+        code: 200,
         message: 'success',
       })),
       catchError((error) => {
         throw new BadGatewayException({
-          code: ERROR_CODE,
+          code: 0,
           data: null,
           message: error?.response?.message
-        });
-      }),
-    );
+        })
+      })
+    )
   }
 }

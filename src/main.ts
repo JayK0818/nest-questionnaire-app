@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ResponseTransformInterceptor } from './interceptors/response.interceptors';
+import { HttpExceptionFilter } from './exception/exception-filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,7 @@ async function bootstrap() {
       stopAtFirstError: true
     })
   )
+  app.useGlobalFilters(new HttpExceptionFilter())
   // 全局拦截器处理返回给客户端的数据
   app.useGlobalInterceptors(new ResponseTransformInterceptor())
   await app.listen(3000);
