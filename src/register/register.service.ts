@@ -18,6 +18,6 @@ export class RegisterService {
     await this.userRepository.save({
       username,
       password,
-    });
+    })
   }
 }

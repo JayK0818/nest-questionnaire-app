@@ -4,9 +4,9 @@ import { map } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
 interface Response<T> {
-  data: T
-  code?: number
-  message: string
+  data: T;
+  code?: number;
+  msg: string;
 }
 
 @Injectable()
@@ -14,16 +14,12 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
   intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => ({
-        data,
+        data: data ? data : null,
         code: 200,
-        message: 'success',
+        msg: 'success',
       })),
       catchError((error) => {
-        throw new BadGatewayException({
-          code: 0,
-          data: null,
-          message: error?.response?.message
-        })
+        throw new BadGatewayException(error?.message);
       })
     )
   }
