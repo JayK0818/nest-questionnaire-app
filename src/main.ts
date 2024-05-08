@@ -12,9 +12,10 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      stopAtFirstError: true
-    })
-  )
+      stopAtFirstError: true,
+      forbidUnknownValues: true
+    }),
+  );
   app.useGlobalFilters(new HttpExceptionFilter())
   // 全局拦截器处理返回给客户端的数据
   app.useGlobalInterceptors(new ResponseTransformInterceptor())

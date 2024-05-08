@@ -19,7 +19,8 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
         msg: 'success',
       })),
       catchError((error) => {
-        throw new BadGatewayException(error?.message);
+        const message = error.response ? (error.response.message.toString()) : error.message
+        throw new BadGatewayException(message);
       })
     )
   }
