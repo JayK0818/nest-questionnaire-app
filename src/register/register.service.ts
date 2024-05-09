@@ -13,7 +13,7 @@ export class RegisterService {
   async createUser({ username, password }: UserInterface) {
     const findUser = await this.userRepository.findOneBy({ username });
     if (findUser) {
-      throw new BadRequestException(`username ${username} is exist`);
+      throw new BadRequestException(`用户名 ${username} 已存在`);
     }
     await this.userRepository.save({
       username,

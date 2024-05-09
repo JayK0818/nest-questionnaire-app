@@ -6,6 +6,6 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
   @Post('')
   login(@Body() userLoginDto: UserLoginDto) {
-    return this.loginService.login(userLoginDto);
+    return this.loginService.findUser(userLoginDto);
   }
 }
