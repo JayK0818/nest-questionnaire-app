@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ResponseTransformInterceptor } from './interceptors/response.interceptors';
@@ -6,7 +6,12 @@ import { HttpExceptionFilter } from './exception/exception-filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api/v1')
+  app.setGlobalPrefix('/api')
+  app.enableVersioning({
+    prefix: 'v',
+    defaultVersion: '1',
+    type: VersioningType.URI
+  })
   // 全局管道 验证参数
   app.useGlobalPipes(
     new ValidationPipe({
